@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var userField: UITextField!
     @IBOutlet weak var pwdField: UITextField!
@@ -15,16 +15,28 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        userField.delegate = self
+        pwdField.delegate = self
     }
     
     @IBAction func buttonPressed(_ sender: Any) {
-        if(userField != nil && pwdField != nil) {
-            status.text = "\(userField.text) logged in"
+        if(userField.text != "" && pwdField.text != "") {
+            status.text = "\(userField.text!) logged in"
         } else {
             status.text = "Invalid login"
         }
     }
+    
+    func textFieldShouldReturn(_ textField:UITextField) -> Bool {
+           textField.resignFirstResponder()
+           return true
+       }
+       
+       // Called when the user clicks on the view outside of the UITextField
+
+       override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+           self.view.endEditing(true)
+       }
     
 }
 
